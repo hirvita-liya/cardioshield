@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, NavLink, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, NavLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Heart, 
   LayoutDashboard, 
@@ -7,10 +7,9 @@ import {
   Info, 
   LogOut, 
   Lock, 
-  ShieldCheck
+  ShieldCheck 
 } from 'lucide-react';
 import Login from './pages/Login';
-import Logout from './pages/Logout';
 import Dashboard from './pages/Dashboard';
 import Predict from './pages/Predict';
 import About from './pages/About';
@@ -25,20 +24,31 @@ function ProtectedRoute({ children, isAuthenticated }) {
 }
 
 export default function App() {
-  // Always defaults to false so it NEVER opens on dashboard automatically
+  // Always starts unauthenticated so every visit requires login
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Purge any stale persistent auth token so the app always starts cleanly on login
+    // Purge session on initial load so user must log in each time
+    sessionStorage.clear();
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userName');
-    
+
     setIsAuthenticated(false);
     setCheckingAuth(false);
   }, []);
+
+  // Direct logout handler: wipes auth and immediately routes to /login
+  const handleLogout = (e) => {
+    e.preventDefault();
+    sessionStorage.clear();
+    localStorage.clear();
+    setIsAuthenticated(false);
+    navigate('/login', { replace: true });
+  };
 
   if (checkingAuth) {
     return (
@@ -54,8 +64,8 @@ export default function App() {
     );
   }
 
-  // Determine if header and footer should be visible (hidden on Login and Logout)
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/logout';
+  // Header & footer hidden only on login page
+  const isAuthPage = location.pathname === '/login';
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-[#080c16] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -157,18 +167,19 @@ export default function App() {
                     </div>
                   </div>
 
-                  <Link 
-                    to="/logout"
+                  <button 
+                    type="button"
+                    onClick={handleLogout}
                     className="inline-flex items-center space-x-1.5 px-3 py-2 border border-rose-500/30 rounded-lg text-xs font-semibold text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 hover:border-rose-500/50 transition duration-150 cursor-pointer shadow-sm"
                     title="End Session"
                   >
                     <LogOut className="h-3.5 w-3.5" />
                     <span className="hidden sm:inline">Sign Out</span>
-                  </Link>
+                  </button>
                 </div>
               ) : (
                 <Link 
-                  to="/login"
+                  to="/login" 
                   className="inline-flex items-center space-x-1.5 px-4 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 rounded-lg text-xs font-bold text-white shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] hover:opacity-95 transition cursor-pointer"
                 >
                   <Lock className="h-3.5 w-3.5" />
@@ -220,22 +231,11 @@ export default function App() {
       {/* Main Content Viewport */}
       <main className="flex-grow relative z-10">
         <Routes>
-          {/* Base URL ALWAYS redirects directly to /login */}
           <Route path="/" element={<Navigate to="/login" replace />} />
-
-          {/* Login Route: Accessible directly; redirects to /dashboard ONLY when logged in */}
           <Route 
             path="/login" 
             element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login setAuth={setIsAuthenticated} />} 
           />
-          
-          {/* Logout Route */}
-          <Route 
-            path="/logout" 
-            element={<Logout setAuth={setIsAuthenticated} />} 
-          />
-
-          {/* Protected Dashboard Route */}
           <Route 
             path="/dashboard" 
             element={
@@ -244,8 +244,6 @@ export default function App() {
               </ProtectedRoute>
             } 
           />
-
-          {/* Protected Prediction Route */}
           <Route 
             path="/predict" 
             element={
@@ -254,16 +252,12 @@ export default function App() {
               </ProtectedRoute>
             } 
           />
-
-          {/* Public About Route */}
           <Route path="/about" element={<About />} />
-
-          {/* Catch-all: Fallback back to /login */}
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </main>
 
-      {/* Modern High-Tech Footer */}
+      {/* Footer */}
       {!isAuthPage && (
         <footer className="relative z-10 bg-[#070a12]/90 border-t border-white/[0.08] text-slate-400 text-xs py-8 mt-12 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
