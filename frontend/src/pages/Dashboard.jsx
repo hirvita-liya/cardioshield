@@ -368,13 +368,22 @@ export default function Dashboard() {
               <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto leading-relaxed">
                 Patient analytics and prognostic logs are stored locally within the local sandbox and browser session to ensure data privacy.
               </p>
-              <button
-                onClick={() => navigate('/about')}
-                className="mt-4 text-xs font-bold text-cyan-400 hover:text-cyan-300 inline-flex items-center space-x-1 transition cursor-pointer"
-              >
-                <span>Read Model Documentation</span>
-                <ChevronRight className="h-3.5 w-3.5" />
-              </button>
+              <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-2">
+                <button
+                  onClick={() => navigate('/evaluation')}
+                  className="w-full sm:w-auto px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-semibold inline-flex items-center justify-center space-x-1.5 transition cursor-pointer"
+                >
+                  <i className="fa-solid fa-microchip text-xs"></i>
+                  <span>Evaluation Leaderboard</span>
+                </button>
+                <button
+                  onClick={() => navigate('/about')}
+                  className="w-full sm:w-auto text-xs font-bold text-cyan-400 hover:text-cyan-300 inline-flex items-center justify-center space-x-1 transition cursor-pointer"
+                >
+                  <span>Model Specs</span>
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
             </div>
           </div>
 

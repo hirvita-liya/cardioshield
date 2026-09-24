@@ -1,13 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Heart, 
   BookOpen, 
   ShieldAlert, 
   Award, 
-  Database,
-  Cpu,
-  Layers,
-  CheckCircle2
+  Database, 
+  Cpu, 
+  Layers, 
+  CheckCircle2,
+  ArrowRight
 } from 'lucide-react';
 
 export default function About() {
@@ -78,6 +80,16 @@ export default function About() {
                     <span>Core Framework: <strong className="text-cyan-300">Scikit-Learn & Joblib Pipeline</strong></span>
                   </li>
                 </ul>
+
+                <div className="mt-4 pt-3 border-t border-white/[0.08] flex justify-end">
+                  <Link 
+                    to="/evaluation"
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-semibold transition"
+                  >
+                    <span>View Benchmark Leaderboard & Derivations</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

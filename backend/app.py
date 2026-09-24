@@ -34,10 +34,14 @@ def load_resources():
 def serve_index():
     return send_from_directory(app.static_folder, "index.html")
 
-# Serves static assets (CSS, JS, etc.)
+# Serves static assets (CSS, JS, etc.) or SPA fallback to index.html
 @app.route("/<path:path>")
 def serve_static(path):
-    return send_from_directory(app.static_folder, path)
+    file_path = os.path.join(app.static_folder, path)
+    if os.path.exists(file_path):
+        return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, "index.html")
+
 
 # Prediction API Endpoint
 @app.route("/predict", methods=["POST"])

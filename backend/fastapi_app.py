@@ -165,3 +165,15 @@ def serve_icons():
     if os.path.exists(icons_path):
         return FileResponse(icons_path)
     raise HTTPException(status_code=404, detail="Icons file not found")
+
+# SPA Fallback for client-side routing
+@app.get("/{full_path:path}")
+def serve_spa(full_path: str):
+    file_path = os.path.join(BASE_DIR, "static", full_path)
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    index_path = os.path.join(BASE_DIR, "static", "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    raise HTTPException(status_code=404, detail="Index file not found")
+

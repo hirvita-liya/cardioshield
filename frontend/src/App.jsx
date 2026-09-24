@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Predict from './pages/Predict';
 import About from './pages/About';
+import Evaluation from './pages/Evaluation';
 import './App.css';
 
 // Protected Route Wrapper Component
@@ -68,7 +69,7 @@ export default function App() {
   const isAuthPage = location.pathname === '/login';
 
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-[#080c16] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="min-h-screen flex flex-col font-sans bg-[#080c14] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
       
       {/* Background Ambient Glow Elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
@@ -78,7 +79,7 @@ export default function App() {
       </div>
 
       {!isAuthPage && (
-        <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#080c16]/80 border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+        <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#080c14]/80 border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
           <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-white to-cyan-400 w-24 animate-pulse-scan"></div>
           </div>
@@ -110,7 +111,7 @@ export default function App() {
               <NavLink 
                 to="/dashboard" 
                 className={({ isActive }) => 
-                  `flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition duration-200 ${
+                  `flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-semibold tracking-wide transition duration-200 ${
                     isActive 
                       ? 'bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 text-cyan-300 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]' 
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
@@ -124,7 +125,7 @@ export default function App() {
               <NavLink 
                 to="/predict" 
                 className={({ isActive }) => 
-                  `flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition duration-200 ${
+                  `flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-semibold tracking-wide transition duration-200 ${
                     isActive 
                       ? 'bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 text-cyan-300 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]' 
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
@@ -136,9 +137,23 @@ export default function App() {
               </NavLink>
 
               <NavLink 
+                to="/evaluation" 
+                className={({ isActive }) => 
+                  `flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-semibold tracking-wide transition duration-200 ${
+                    isActive 
+                      ? 'bg-gradient-to-r from-rose-500/20 to-cyan-500/20 text-rose-300 border border-rose-500/40 shadow-[0_0_15px_rgba(244,63,94,0.25)]' 
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
+                  }`
+                }
+              >
+                <i className="fa-solid fa-microchip text-sm"></i>
+                <span>Model Evaluation</span>
+              </NavLink>
+
+              <NavLink 
                 to="/about" 
                 className={({ isActive }) => 
-                  `flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition duration-200 ${
+                  `flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-semibold tracking-wide transition duration-200 ${
                     isActive 
                       ? 'bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 text-cyan-300 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]' 
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
@@ -190,11 +205,11 @@ export default function App() {
           </div>
           
           {/* Mobile Bottom Dock Header */}
-          <div className="md:hidden bg-slate-950/95 border-t border-white/[0.08] px-4 py-2 flex justify-around text-xs">
+          <div className="md:hidden bg-slate-950/95 border-t border-white/[0.08] px-3 py-2 flex justify-around text-xs">
             <NavLink 
               to="/dashboard" 
               className={({ isActive }) => 
-                `flex flex-col items-center py-1 px-3 rounded-lg transition ${
+                `flex flex-col items-center py-1 px-2.5 rounded-lg transition ${
                   isActive ? 'text-cyan-400 font-bold' : 'text-slate-400'
                 }`
               }
@@ -205,7 +220,7 @@ export default function App() {
             <NavLink 
               to="/predict" 
               className={({ isActive }) => 
-                `flex flex-col items-center py-1 px-3 rounded-lg transition ${
+                `flex flex-col items-center py-1 px-2.5 rounded-lg transition ${
                   isActive ? 'text-cyan-400 font-bold' : 'text-slate-400'
                 }`
               }
@@ -214,9 +229,20 @@ export default function App() {
               <span>Predict</span>
             </NavLink>
             <NavLink 
+              to="/evaluation" 
+              className={({ isActive }) => 
+                `flex flex-col items-center py-1 px-2.5 rounded-lg transition ${
+                  isActive ? 'text-rose-400 font-bold' : 'text-slate-400'
+                }`
+              }
+            >
+              <i className="fa-solid fa-microchip text-sm mb-0.5"></i>
+              <span>Evaluation</span>
+            </NavLink>
+            <NavLink 
               to="/about" 
               className={({ isActive }) => 
-                `flex flex-col items-center py-1 px-3 rounded-lg transition ${
+                `flex flex-col items-center py-1 px-2.5 rounded-lg transition ${
                   isActive ? 'text-cyan-400 font-bold' : 'text-slate-400'
                 }`
               }
@@ -252,6 +278,8 @@ export default function App() {
               </ProtectedRoute>
             } 
           />
+          <Route path="/evaluation" element={<Evaluation />} />
+          <Route path="/model-evaluation" element={<Navigate to="/evaluation" replace />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
